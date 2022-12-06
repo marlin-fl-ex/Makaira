@@ -1,6 +1,6 @@
 <p align="center"><img src="buildroot/share/pixmaps/logo/marlin-outrun-nf-500.png" height="250" alt="MarlinFirmware's logo" /></p>
 
-<h1 align="center">Marlin Flex: Filament Extrusion Firmware</h1>
+<h1 align="center">Makaira: the Filament-Making Fork of Marlin</h1>
 <p align="center">
     <a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/marlinfirmware/marlin.svg"></a>
     <a href="https://github.com/MarlinFirmware/Marlin/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/marlinfirmware/marlin.svg"></a>
@@ -11,15 +11,15 @@
     <a href="https://twitter.com/MarlinFirmware"><img alt="Follow MarlinFirmware on Twitter" src="https://img.shields.io/twitter/follow/MarlinFirmware?style=social&logo=twitter"></a>
 </p>
 
-Forked from Marlin Bugfix 2.0.1 to be tailored to filament extruders, pultruders, etc.
+Forked from Marlin Bugfix 2.0.1 to be tailored for filament extruders, pultruders, and other filament-handling machins.
 Additional documentation can be found at the [Marlin Home Page](https://marlinfw.org/).
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
 ## General tailoring rules
 I'm literally making this up as I type, so don't put too much weight on this.
-+ Don't break the Marlin HAL. It's the main reason we're using Marlin, and we want to be able to merge HAL updates.
-+ Add and remove features the Marlin way. To me this means configuration via configuration.h and configuration_adv.h.
-+ For starters, I propose a #define FILAMENT_EXTRUDER we can use as a flag to compiler directives which eliminate features a filament machine will never use
++ Don't break the Marlin HAL. It's the main reason we're using Marlin, and we want to be able to merge HAL updates both up- and downstream.
++ Add and remove features the Marlin way. To me this means any changes we make to the Marlin code should be able to be enabled or disabled via configuration.h and configuration_adv.h.
++ For starters, I propose a #define FILAMENT_HANDLER we can use as a global flag to compiler directives which eliminate  features a filament-handling machine will never use.
 
 ## Marlin 2.1 Bugfix Branch
 
