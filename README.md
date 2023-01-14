@@ -9,12 +9,20 @@
     <a href="https://github.com/MarlinFirmware/Marlin/actions"><img alt="CI Status" src="https://github.com/MarlinFirmware/Marlin/actions/workflows/test-builds.yml/badge.svg"></a>
     <a href="https://github.com/sponsors/thinkyhead"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/thinkyhead?color=db61a2"></a>
     <br />
-    <a href="https://twitter.com/MarlinFirmware"><img alt="Follow MarlinFirmware on Twitter" src="https://img.shields.io/twitter/follow/MarlinFirmware?style=social&logo=twitter"></a>
+    <a href="https://fosstodon.org/@marlinfirmware"><img alt="Follow MarlinFirmware on Mastodon" src="https://img.shields.io/mastodon/follow/109450200866020466?domain=https%3A%2F%2Ffosstodon.org&logoColor=%2300B&style=social"></a>
 </p>
 Additional documentation about Makaira might be found on this [project's wiki](https://github.com/marlin-fl-ex/Makaira/wiki) (one can dream, right?).
 
+Forked from Marlin Bugfix 2.0.1 to be tailored for filament extruders, pultruders, and other filament-handling machins.
 Additional documentation about Marlin can be found at the [Marlin Home Page](https://marlinfw.org/).
+
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
+
+## General tailoring rules
+I'm literally making this up as I type, so don't put too much weight on this.
++ Don't break the Marlin HAL. It's the main reason we're using Marlin, and we want to be able to merge HAL updates both up- and downstream.
++ Add and remove features the Marlin way. To me this means any changes we make to the Marlin code should be able to be enabled or disabled via configuration.h and configuration_adv.h.
++ For starters, I propose a #define FILAMENT_HANDLER we can use as a global flag to compiler directives which eliminate  features a filament-handling machine will never use.
 
 ## Marlin 2.1 Bugfix Branch
 
@@ -28,15 +36,26 @@ Download earlier versions of Marlin on the [Releases page](https://github.com/Ma
 
 ## Example Configurations
 
-Before building Marlin you'll need to configure it for your specific hardware. Your vendor should have already provided source code with configurations for the installed firmware, but if you ever decide to upgrade you'll need updated configuration files. Marlin users have contributed dozens of tested example configurations to get you started. Visit the [MarlinFirmware/Configurations](https://github.com/MarlinFirmware/Configurations) repository to find the right configuration for your hardware.
+Before you can build Marlin for your machine you'll need a configuration for your specific hardware. Upon request, your vendor will be happy to provide you with the complete source code and configurations for your machine, but you'll need to get updated configuration files if you want to install a newer version of Marlin. Fortunately, Marlin users have contributed dozens of tested configurations to get you started. Visit the [MarlinFirmware/Configurations](https://github.com/MarlinFirmware/Configurations) repository to find the right configuration for your hardware.
 
 ## Building Marlin 2.1
 
-To build Marlin 2.1 you'll need [Arduino IDE 1.8.8 or newer](https://www.arduino.cc/en/main/software) or [PlatformIO](https://docs.platformio.org/en/latest/ide.html#platformio-ide). We've posted detailed instructions on [Building Marlin with Arduino](https://marlinfw.org/docs/basics/install_arduino.html) and [Building Marlin with PlatformIO for ReArm](https://marlinfw.org/docs/basics/install_rearm.html) (which applies well to other 32-bit boards).
+To build and upload Marlin you will use one of these tools:
+
+- The free [Visual Studio Code](https://code.visualstudio.com/download) using the [Auto Build Marlin](https://marlinfw.org/docs/basics/auto_build_marlin.html) extension.
+- The free [Arduino IDE](https://www.arduino.cc/en/main/software) : See [Building Marlin with Arduino](https://marlinfw.org/docs/basics/install_arduino.html)
+
+Marlin is optimized to build with the **PlatformIO IDE** extension for **Visual Studio Code**. You can still build Marlin with **Arduino IDE**, and we hope to improve the Arduino build experience, but at this time PlatformIO is the better choice.
 
 ## Hardware Abstraction Layer (HAL)
 
-Marlin 2.0 introduced a layer of abstraction to allow all the existing high-level code to be built for 32-bit platforms while still retaining full 8-bit AVR compatibility. Retaining AVR compatibility and a single code-base is important to us, because we want to make sure that features and patches get as much testing and attention as possible, and that all platforms always benefit from the latest improvements.
+Marlin includes an abstraction layer to provide a common API for all the platforms it targets. This allows Marlin code to address the details of motion and user interface tasks at the lowest and highest levels with no system overhead, tying all events directly to the hardware clock.
+
+Every new HAL opens up a world of hardware. At this time we need HALs for RP2040 and the Duet3D family of boards. A HAL that wraps an RTOS is an interesting concept we would can explore. Did you know that Marlin includes a Simulator that can run on Windows, macOS, and Linux? Join the Discord to help move these sub-projects forward!
+
+## 8-Bit AVR Boards
+
+A core tenet of this project is to keep supporting 8-bit AVR boards while also maintaining a single codebase that applies equally to all machines. We want casual hobbyists to benefit from the community's innovations as much as possible just as much as those with fancier machines. Plus, those old AVR-based machines are often the best for your testing and feedback!
 
 ### Supported Platforms
 
@@ -64,7 +83,7 @@ Marlin 2.0 introduced a layer of abstraction to allow all the existing high-leve
 
 Proposed patches should be submitted as a Pull Request against the ([bugfix-2.1.x](https://github.com/MarlinFirmware/Marlin/tree/bugfix-2.1.x)) branch.
 
-- This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.0.x life-cycle.
+- This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.1.x life-cycle.
 - Follow the [Coding Standards](https://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
 - Please submit Feature Requests and Bug Reports to the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues/new/choose). Support resources are also listed there.
 - Whenever you add new features, be sure to add tests to `buildroot/tests` and then run your tests locally, if possible.
