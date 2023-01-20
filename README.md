@@ -1,6 +1,6 @@
-<p align="center"><img src="buildroot/share/pixmaps/logo/marlin-outrun-nf-500.png" height="250" alt="MarlinFirmware's logo" /></p>
+<!-- could use a Makaira logo here <p align="center"><img src="buildroot/share/pixmaps/logo/makaira-outrun-nf-500.png" height="250" alt="MakairaFirmware's logo" /></p>-->
 
-<h1 align="center">Marlin-Makaira Filament Creation Firmware</h1>
+<h1 align="center">Makaira Filament Handling Firmware</h1>
 
 <p align="center">
     <a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/marlinfirmware/marlin.svg"></a>
@@ -11,36 +11,34 @@
     <br />
     <a href="https://fosstodon.org/@marlinfirmware"><img alt="Follow MarlinFirmware on Mastodon" src="https://img.shields.io/mastodon/follow/109450200866020466?domain=https%3A%2F%2Ffosstodon.org&logoColor=%2300B&style=social"></a>
 </p>
+
 Additional documentation about Makaira might be found on this [project's wiki](https://github.com/marlin-fl-ex/Makaira/wiki) (one can dream, right?).
 
-Forked from Marlin Bugfix 2.0.1 to be tailored for filament extruders, pultruders, and other filament-handling machins.
-Additional documentation about Marlin can be found at the [Marlin Home Page](https://marlinfw.org/).
+Forked from Marlin Bugfix 2.0.1 to be tailored for filament extruders, pultruders, and other filament-handling machines. If you see Makaira in the documentation, it refers specifically to filament-handling configurations. If you see Marlin referenced, it refers to the general Marlin code base. Additional documentation about Marlin can be found at the [Marlin Home Page](https://marlinfw.org/).
 
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
-## General tailoring rules
-I'm literally making this up as I type, so don't put too much weight on this.
-+ Don't break the Marlin HAL. It's the main reason we're using Marlin, and we want to be able to merge HAL updates both up- and downstream.
-+ Add and remove features the Marlin way. To me this means any changes we make to the Marlin code should be able to be enabled or disabled via configuration.h and configuration_adv.h.
-+ For starters, I propose a #define FILAMENT_HANDLER we can use as a global flag to compiler directives which eliminate  features a filament-handling machine will never use.
+### Supported Platforms
 
-## Marlin 2.1 Bugfix Branch
+  Platform|MCU|Example Boards|Status
+  --------|---|-------|----------
+  [Recreator3D MK3](https://joshuartaylor.wixsite.com/recreator3d/mk3)||Xvico x.xx, Robin Nano V1.2|work in progress
+  [Recreator3D MK5](https://joshuartaylor.wixsite.com/recreator3d/mk5kitender3)||Ender V4.2.2|alpha release
+  [polyjoiner](https://discord.com/channels/969539629176991764/999380356035788920)||BTT EBB42|planned
 
-__Not for production use. Use with caution!__
+## Bugfix Branch!
 
-Marlin 2.1 takes this popular RepRap firmware to the next level by adding support for much faster 32-bit and ARM-based boards while improving support for 8-bit AVR boards. Read about Marlin's decision to use a "Hardware Abstraction Layer" below.
+Makaira is currently based on the Marlin 2.1 Bugfix Branch __Not for production use. Use with caution!__
 
-This branch is for patches to the latest 2.1.x release version. Periodically this branch will form the basis for the next minor 2.1.x release.
-
-Download earlier versions of Marlin on the [Releases page](https://github.com/MarlinFirmware/Marlin/releases).
+This branch is for patches to the latest 2.1.x release version. Eventually this branch will form the basis for the next minor 2.1.x release.
 
 ## Example Configurations
 
-Before you can build Marlin for your machine you'll need a configuration for your specific hardware. Upon request, your vendor will be happy to provide you with the complete source code and configurations for your machine, but you'll need to get updated configuration files if you want to install a newer version of Marlin. Fortunately, Marlin users have contributed dozens of tested configurations to get you started. Visit the [MarlinFirmware/Configurations](https://github.com/MarlinFirmware/Configurations) repository to find the right configuration for your hardware.
+Before you can build Makaira for your machine you'll need a configuration for your specific hardware. Upon request, your vendor will be happy to provide you with the complete source code and configurations for your machine, but you'll need to get updated configuration files if you want to install a newer version of Makaira. Fortunately, the community has (will have) tested configurations to get you started. Visit the [Marlin-fl-ex/Configurations](https://github.com/Marlin-fl-ex/Configurations) repository to find the right configuration for your hardware.
 
-## Building Marlin 2.1
+## Building Makaira 2.1
 
-To build and upload Marlin you will use one of these tools:
+To build and upload Makaira you will use one of these tools:
 
 - The free [Visual Studio Code](https://code.visualstudio.com/download) using the [Auto Build Marlin](https://marlinfw.org/docs/basics/auto_build_marlin.html) extension.
 - The free [Arduino IDE](https://www.arduino.cc/en/main/software) : See [Building Marlin with Arduino](https://marlinfw.org/docs/basics/install_arduino.html)
@@ -55,46 +53,11 @@ Every new HAL opens up a world of hardware. At this time we need HALs for RP2040
 
 ## 8-Bit AVR Boards
 
-A core tenet of this project is to keep supporting 8-bit AVR boards while also maintaining a single codebase that applies equally to all machines. We want casual hobbyists to benefit from the community's innovations as much as possible just as much as those with fancier machines. Plus, those old AVR-based machines are often the best for your testing and feedback!
-
-### Supported Platforms
-
-  Platform|MCU|Example Boards
-  --------|---|-------
-  [Arduino AVR](https://www.arduino.cc/)|ATmega|RAMPS, Melzi, RAMBo
-  [Teensy++ 2.0](https://www.microchip.com/en-us/product/AT90USB1286)|AT90USB1286|Printrboard
-  [Arduino Due](https://www.arduino.cc/en/Guide/ArduinoDue)|SAM3X8E|RAMPS-FD, RADDS, RAMPS4DUE
-  [ESP32](https://github.com/espressif/arduino-esp32)|ESP32|FYSETC E4, E4d@BOX, MRR
-  [LPC1768](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1768FBD100)|ARM® Cortex-M3|MKS SBASE, Re-ARM, Selena Compact
-  [LPC1769](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1769FBD100)|ARM® Cortex-M3|Smoothieboard, Azteeg X5 mini, TH3D EZBoard
-  [STM32F103](https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html)|ARM® Cortex-M3|Malyan M200, GTM32 Pro, MKS Robin, BTT SKR Mini
-  [STM32F401](https://www.st.com/en/microcontrollers-microprocessors/stm32f401.html)|ARM® Cortex-M4|ARMED, Rumba32, SKR Pro, Lerdge, FYSETC S6, Artillery Ruby
-  [STM32F7x6](https://www.st.com/en/microcontrollers-microprocessors/stm32f7x6.html)|ARM® Cortex-M7|The Borg, RemRam V1
-  [STM32G0B1RET6](https://www.st.com/en/microcontrollers-microprocessors/stm32g0x1.html)|ARM® Cortex-M0+|BigTreeTech SKR mini E3 V3.0
-  [STM32H743xIT6](https://www.st.com/en/microcontrollers-microprocessors/stm32h743-753.html)|ARM® Cortex-M7|BigTreeTech SKR V3.0, SKR EZ V3.0, SKR SE BX V2.0/V3.0
-  [SAMD51P20A](https://www.adafruit.com/product/4064)|ARM® Cortex-M4|Adafruit Grand Central M4
-  [Teensy 3.5](https://www.pjrc.com/store/teensy35.html)|ARM® Cortex-M4|
-  [Teensy 3.6](https://www.pjrc.com/store/teensy36.html)|ARM® Cortex-M4|
-  [Teensy 4.0](https://www.pjrc.com/store/teensy40.html)|ARM® Cortex-M7|
-  [Teensy 4.1](https://www.pjrc.com/store/teensy41.html)|ARM® Cortex-M7|
-  Linux Native|x86/ARM/etc.|Raspberry Pi
-
-## Submitting Patches
-
-Proposed patches should be submitted as a Pull Request against the ([bugfix-2.1.x](https://github.com/MarlinFirmware/Marlin/tree/bugfix-2.1.x)) branch.
-
-- This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.1.x life-cycle.
-- Follow the [Coding Standards](https://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
-- Please submit Feature Requests and Bug Reports to the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues/new/choose). Support resources are also listed there.
-- Whenever you add new features, be sure to add tests to `buildroot/tests` and then run your tests locally, if possible.
-  - It's optional: Running all the tests on Windows might take a long time, and they will run anyway on GitHub.
-  - If you're running the tests on Linux (or on WSL with the code on a Linux volume) the speed is much faster.
-  - You can use `make tests-all-local` or `make tests-single-local TEST_TARGET=...`.
-  - If you prefer Docker you can use `make tests-all-local-docker` or `make tests-all-local-docker TEST_TARGET=...`.
+A core tenet of this project is to keep supporting 8-bit AVR boards while also maintaining a single codebase that applies equally to all machines. This is especially important for filament handling, because often these board provide more than enough capability. We want casual hobbyists to benefit from the community's innovations as much as possible just as much as those with fancier machines. Plus, those old AVR-based machines are often the best for your testing and feedback!
 
 ## Marlin Support
 
-The Issue Queue is reserved for Bug Reports and Feature Requests. To get help with configuration and troubleshooting, please use the following resources:
+The Issue Queue is reserved for Bug Reports and Feature Requests. To get help with configuration and troubleshooting, please use the following resources. You won't get any Makaira-specific help there, though:
 
 - [Marlin Documentation](https://marlinfw.org) - Official Marlin documentation
 - [Marlin Discord](https://discord.gg/n5NJ59y) - Discuss issues with Marlin users and developers
@@ -103,60 +66,50 @@ The Issue Queue is reserved for Bug Reports and Feature Requests. To get help wi
 - Facebook Group ["Marlin Firmware for 3D Printers"](https://www.facebook.com/groups/3Dtechtalk/)
 - [Marlin Configuration](https://www.youtube.com/results?search_query=marlin+configuration) on YouTube
 
+## Contributing
+### General tailoring rules
+I'm literally making this up as I type, so don't put too much weight on this.
++ Don't break the Marlin HAL. It's the main reason we're using Marlin, and we want to be able to merge HAL updates both up- and downstream.
++ Add and remove features the Marlin way. To me this means any changes we make to the Marlin code should be able to be enabled or disabled via configuration.h and configuration_adv.h.
++ For starters, I propose a #define FILAMENT_HANDLER we can use as a global flag to compiler directives which eliminate  features a filament-handling machine will never use.
+
+### Submitting Patches
+Proposed patches should be submitted as a Pull Request against the ([bugfix-2.1.x](https://github.com/marlin-fl-ex/Makaira/tree/bugfix-2.1.x)) branch.
+
+- This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.1.x life-cycle.
+- Follow the [Coding Standards](https://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
+- Please submit Feature Requests and Bug Reports to the [Issue Queue](https://github.com/marlin-fl-ex/Makaira/issues/new/choose). Support resources are also listed there.
+- Whenever you add new features, be sure to add tests to `buildroot/tests` and then run your tests locally, if possible.
+  - It's optional: Running all the tests on Windows might take a long time, and they will run anyway on GitHub.
+  - If you're running the tests on Linux (or on WSL with the code on a Linux volume) the speed is much faster.
+  - You can use `make tests-all-local` or `make tests-single-local TEST_TARGET=...`.
+  - If you prefer Docker you can use `make tests-all-local-docker` or `make tests-all-local-docker TEST_TARGET=...`.
+
 ## Contributors
 
-Marlin is constantly improving thanks to a huge number of contributors from all over the world bringing their specialties and talents. Huge thanks are due to [all the contributors](https://github.com/MarlinFirmware/Marlin/graphs/contributors) who regularly patch up bugs, help direct traffic, and basically keep Marlin from falling apart. Marlin's continued existence would not be possible without them.
+A huge thanks to all the Marlin Contributors. Thanks to all those whose work was ported to Makaira, including:
+- Nick Jones
+- Joshua Taylor
+
+Makaira is constantly improving thanks to our contributors and the [Marlin contributors](https://github.com/MarlinFirmware/Marlin/graphs/contributors) who regularly patch up bugs, help direct traffic, and basically keep Marlin from falling apart. Marlin's continued existence would not be possible without them.
 
 ## Administration
 
-Regular users can open and close their own issues, but only the administrators can do project-related things like add labels, merge changes, set milestones, and kick trolls. The current Marlin admin team consists of:
+Regular users can open and close their own issues, but only the administrators can do project-related things like add labels, merge changes, set milestones, and kick trolls. The current Makaira admin team consists of:
 
 <table align="center">
 <tr><td>Project Maintainer</td></tr>
 <tr><td>
 
- 🇺🇸  **Scott Lahteine**
-       [@thinkyhead](https://github.com/thinkyhead)
-       [<kbd>  Donate 💸  </kbd>](https://www.thinkyhead.com/donate-to-marlin)
-
-</td><td>
-
- 🇺🇸  **Roxanne Neufeld**
-       [@Roxy-3D](https://github.com/Roxy-3D)
-
- 🇺🇸  **Keith Bennett**
-       [@thisiskeithb](https://github.com/thisiskeithb)
-       [<kbd>  Donate 💸  </kbd>](https://github.com/sponsors/thisiskeithb)
-
- 🇺🇸  **Jason Smith**
-       [@sjasonsmith](https://github.com/sjasonsmith)
-
-</td><td>
-
- 🇧🇷  **Victor Oliveira**
-       [@rhapsodyv](https://github.com/rhapsodyv)
-
- 🇬🇧  **Chris Pepper**
-       [@p3p](https://github.com/p3p)
-
-🇳🇿  **Peter Ellens**
-       [@ellensp](https://github.com/ellensp)
-       [<kbd>  Donate 💸  </kbd>](https://ko-fi.com/ellensp)
-
-</td><td>
-
- 🇺🇸  **Bob Kuhn**
-       [@Bob-the-Kuhn](https://github.com/Bob-the-Kuhn)
-
- 🇳🇱  **Erik van der Zalm**
-       [@ErikZalm](https://github.com/ErikZalm)
-       [<kbd>  Donate 💸  </kbd>](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/MarlinFirmware/Marlin&title=Marlin&language=&tags=github&category=software)
+ 🇺🇸  **Brian Alano**
+       [@GreenEllipsis](https://github.com/GreenEllipsis)
+    <!-- <kbd>  Donate 💸  </kbd> -->
 
 </td></tr>
-</table>
+</table><!--- 
 
 ## License
 
-Marlin is published under the [GPL license](/LICENSE) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Marlin firmware as the driver for your open or closed-source product, you must keep Marlin open, and you must provide your compatible Marlin source code to end users upon request. The most straightforward way to comply with the Marlin license is to make a fork of Marlin on Github, perform your modifications, and direct users to your modified fork.
+Makaira, like Marlin, is published under the [GPL license](/LICENSE) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Makaira firmware as the driver for your open or closed-source product, you must keep Makaira open, and you must provide your compatible Makaira source code to end users upon request. The most straightforward way to comply with the Makaira license is to make a fork of Makaira on Github, perform your modifications, and direct users to your modified fork.
 
-While we can't prevent the use of this code in products (3D printers, CNC, etc.) that are closed source or crippled by a patent, we would prefer that you choose another firmware or, better yet, make your own.
+While we can't prevent the use of this code in products (3D printers, CNC, etc.) that are closed source or crippled by a patent, we would prefer that in such cases you choose another firmware or, better yet, make your own.
