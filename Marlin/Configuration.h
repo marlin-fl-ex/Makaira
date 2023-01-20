@@ -87,7 +87,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_EFB
+#define MOTHERBOARD BOARD_RAMPS_14_EFB
 #endif
 
 /**
@@ -99,7 +99,6 @@
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
 #define SERIAL_PORT 0
-
 /**
  * Serial Port Baud Rate
  * This is the default communication speed for all serial ports.
@@ -148,6 +147,8 @@
  *
  * These settings allow Marlin to tune stepper driver timing and enable advanced options for
  * stepper drivers that support them. You may also override timing options in Configuration_adv.h.
+ * 
+ * Makaira: If you don't have X, Y and/or Z axes, leave those driver types undefined to disable those axes. TODO/TEST
  *
  * Use TMC2208/TMC2208_STANDALONE for TMC2225 drivers and TMC2209/TMC2209_STANDALONE for TMC2226 drivers.
  *
@@ -158,9 +159,16 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#define X_DRIVER_TYPE  A4988
-#define Y_DRIVER_TYPE  A4988
-#define Z_DRIVER_TYPE  A4988
+//#define X_DRIVER_TYPE  A4988 //TEST if undefining this can be used to remove X axis from UI
+//#define Y_DRIVER_TYPE  A4988 //TEST
+//#define Z_DRIVER_TYPE  A4988 //FIXME if this is undefined, types.h failes with the below. Guessing LOGICAL_AXES has an unexpected value
+/*
+In file included from Marlin\src\HAL\AVR\../../inc/MarlinConfig.h:47:0,
+                 from Marlin\src\HAL\AVR\HAL.cpp:24:
+Marlin\src\HAL\AVR\../../inc/../core/types.h:478:13: error: 'void XYZval<T>::set(const T (&)[2])' cannot be overloaded
+     FI void set(const T (&arr)[LOGICAL_AXES])          { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
+             ^~~
+*/
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
 //#define Z2_DRIVER_TYPE A4988
@@ -821,9 +829,9 @@
  * Add M302 to set the minimum extrusion temperature and/or turn
  * cold extrusion prevention on and off.
  *
- * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
+ * Disabled by default because most filament handlers will need cold extrusion
  */
-#define PREVENT_COLD_EXTRUSION
+//#define PREVENT_COLD_EXTRUSION //FIXME DEBUG Theres a bug in M145 that assumes PREVENT_COLD_EXTRUSION is defined.
 #define EXTRUDE_MINTEMP 170
 
 /**
@@ -2267,17 +2275,23 @@
 //
 // Preheat Constants - Up to 10 are supported without changes
 //
-#define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 180
-#define PREHEAT_1_TEMP_BED     70
-#define PREHEAT_1_TEMP_CHAMBER 35
+#define PREHEAT_1_LABEL       "220 C"
+#define PREHEAT_1_TEMP_HOTEND 220
+#define PREHEAT_1_TEMP_BED     0
+#define PREHEAT_1_TEMP_CHAMBER 0
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
-#define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
-#define PREHEAT_2_TEMP_CHAMBER 35
+#define PREHEAT_2_LABEL       "230 C"
+#define PREHEAT_2_TEMP_HOTEND 230
+#define PREHEAT_2_TEMP_BED     0
+#define PREHEAT_2_TEMP_CHAMBER 0
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_3_LABEL       "Fan Cool"
+#define PREHEAT_3_TEMP_HOTEND 1
+#define PREHEAT_3_TEMP_BED    0
+#define PREHEAT_3_TEMP_CHAMBER 0
+#define PREHEAT_3_FAN_SPEED     255 // Value from 0 to 255
 
 // @section motion
 
@@ -3091,7 +3105,7 @@
 // 320x240, 2.8", FSMC Display From MKS
 // Usually paired with MKS Robin Nano V1.2
 //
-//#define MKS_ROBIN_TFT28
+// #define MKS_ROBIN_TFT28
 
 //
 // 320x240, 3.2", FSMC Display From MKS
@@ -3164,7 +3178,7 @@
   //#define TFT_INTERFACE_SPI
 
   // TFT Resolution. Enable one of the following options:
-  //#define TFT_RES_320x240
+  //#define TFT_RES_320x240 
   //#define TFT_RES_480x272
   //#define TFT_RES_480x320
   //#define TFT_RES_1024x600
@@ -3210,6 +3224,7 @@
  *   TFT_MIRROR_X, TFT_MIRROR_Y, TFT_NO_ROTATION
  */
 //#define TFT_ROTATION TFT_NO_ROTATION
+#define TFT_ROTATION TFT_NO_ROTATION // TEST DEBUG: should be set by board file?
 
 //=============================================================================
 //============================  Other Controllers  ============================

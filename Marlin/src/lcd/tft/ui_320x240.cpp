@@ -283,59 +283,64 @@ void MarlinUI::draw_status_screen() {
     #endif
   }
   else {
-    tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 32, 10), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "X");
-    const bool nhx = axis_should_home(X_AXIS);
-    tft_string.set(blink && nhx ? "?" : ftostr4sign(LOGICAL_X_POSITION(current_position.x)));
-    tft.add_text(
-      #if ENABLED(TFT_COLOR_UI_PORTRAIT)
-        32 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
-      #else
-        68 - tft_string.width(), tft_string.vcenter(FONT_LINE_HEIGHT),
-      #endif
-      nhx ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string
-    );
-
-    tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 110, 127), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "Y");
-    const bool nhy = axis_should_home(Y_AXIS);
-    tft_string.set(blink && nhy ? "?" : ftostr4sign(LOGICAL_Y_POSITION(current_position.y)));
-    tft.add_text(
-      #if ENABLED(TFT_COLOR_UI_PORTRAIT)
-        110 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
-      #else
-        185 - tft_string.width(), tft_string.vcenter(FONT_LINE_HEIGHT),
-      #endif
-      nhy ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string
-    );
+    #ifdef X_DRIVER_TYPE // TEST
+      tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 32, 10), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "X");
+      const bool nhx = axis_should_home(X_AXIS);
+      tft_string.set(blink && nhx ? "?" : ftostr4sign(LOGICAL_X_POSITION(current_position.x)));
+      tft.add_text(
+        #if ENABLED(TFT_COLOR_UI_PORTRAIT)
+          32 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
+        #else
+          68 - tft_string.width(), tft_string.vcenter(FONT_LINE_HEIGHT),
+        #endif
+        nhx ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string
+      );
+    #endif
+    #ifdef Y_DRIVER_TYPE // TEST
+      tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 110, 127), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "Y");
+      const bool nhy = axis_should_home(Y_AXIS);
+      tft_string.set(blink && nhy ? "?" : ftostr4sign(LOGICAL_Y_POSITION(current_position.y)));
+      tft.add_text(
+        #if ENABLED(TFT_COLOR_UI_PORTRAIT)
+          110 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
+        #else
+          185 - tft_string.width(), tft_string.vcenter(FONT_LINE_HEIGHT),
+        #endif
+        nhy ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string
+      );
+    #endif
   }
 
-  tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 192, 219), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "Z");
-  const bool nhz = axis_should_home(Z_AXIS);
-  uint16_t offset = 25;
-  if (blink && nhz)
-    tft_string.set('?');
-  else {
-    const float z = LOGICAL_Z_POSITION(current_position.z);
-    tft_string.set(ftostr52sp((int16_t)z));
-    tft_string.rtrim();
-    offset += tft_string.width();
+  #ifdef Z_DRIVER_TYPE // TEST
+    tft.add_text(TERN(TFT_COLOR_UI_PORTRAIT, 192, 219), tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_AXIS_HOMED , "Z");
+    const bool nhz = axis_should_home(Z_AXIS);
+    uint16_t offset = 25;
+    if (blink && nhz)
+      tft_string.set('?');
+    else {
+      const float z = LOGICAL_Z_POSITION(current_position.z);
+      tft_string.set(ftostr52sp((int16_t)z));
+      tft_string.rtrim();
+      offset += tft_string.width();
 
-    tft_string.set(ftostr52sp(z));
-    offset -= tft_string.width();
-  }
-  tft.add_text(
-    #if ENABLED(TFT_COLOR_UI_PORTRAIT)
-      192 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
-    #else
-      301 - tft_string.width() - offset, tft_string.vcenter(FONT_LINE_HEIGHT),
-    #endif
-  nhz ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string);
-  TERN_(TOUCH_SCREEN, touch.add_control(MOVE_AXIS, 0, 103,
-    #if ENABLED(TFT_COLOR_UI_PORTRAIT)
-      232, FONT_LINE_HEIGHT * 2
-    #else
-      312, FONT_LINE_HEIGHT
-    #endif
-  ));
+      tft_string.set(ftostr52sp(z));
+      offset -= tft_string.width();
+    }
+    tft.add_text(
+      #if ENABLED(TFT_COLOR_UI_PORTRAIT)
+        192 - tft_string.width() / 2, FONT_LINE_HEIGHT + tft_string.vcenter(FONT_LINE_HEIGHT),
+      #else
+        301 - tft_string.width() - offset, tft_string.vcenter(FONT_LINE_HEIGHT),
+      #endif
+    nhz ? COLOR_AXIS_NOT_HOMED : COLOR_AXIS_HOMED, tft_string);
+    TERN_(TOUCH_SCREEN, touch.add_control(MOVE_AXIS, 0, 103,
+      #if ENABLED(TFT_COLOR_UI_PORTRAIT)
+        232, FONT_LINE_HEIGHT * 2
+      #else
+        312, FONT_LINE_HEIGHT
+      #endif
+    ));
+  #endif
 
   // feed rate
   tft.canvas(

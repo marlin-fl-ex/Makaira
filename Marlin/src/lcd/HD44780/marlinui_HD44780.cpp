@@ -975,11 +975,19 @@ void MarlinUI::draw_status_screen() {
                 lcd_put_u8str(tmp);
               #endif
             }
-            else {
-              const xy_pos_t lpos = current_position.asLogical();
-              _draw_axis_value(X_AXIS, ftostr4sign(lpos.x), blink);
-              lcd_put_u8str(F(" "));
-              _draw_axis_value(Y_AXIS, ftostr4sign(lpos.y), blink);
+            else { // show x & y positions TEST
+              #if defined(X_DRIVER_TYPE) || defined(Y_DRIVER_TYPE) 
+                const xy_pos_t lpos = current_position.asLogical();
+                #if defined(X_DRIVER_TYPE)
+                  _draw_axis_value(X_AXIS, ftostr4sign(lpos.x), blink);
+                  lcd_put_u8str(F(" "));
+                #else
+                  lcd_put_u8str(F("     ")); 
+                #endif
+                #if defined(Y_DRIVER_TYPE) 
+                  _draw_axis_value(Y_AXIS, ftostr4sign(lpos.y), blink);
+                #endif
+              #endif
             }
 
           #endif // !HAS_DUAL_MIXING
@@ -988,8 +996,12 @@ void MarlinUI::draw_status_screen() {
 
       #endif // LCD_WIDTH >= 20
 
-      lcd_moveto(LCD_WIDTH - 8, 1);
-      _draw_axis_value(Z_AXIS, ftostr52sp(LOGICAL_Z_POSITION(current_position.z)), blink);
+      #ifdef Z_DRIVER_TYPE
+        lcd_moveto(LCD_WIDTH - 8, 1);
+        _draw_axis_value(Z_AXIS, ftostr52sp(LOGICAL_Z_POSITION(current_position.z)), blink);
+      #else
+        lcd_moveto(LCD_WIDTH - 1, 1);
+      #endif
 
       #if HAS_LEVELING && !HAS_HEATED_BED
         lcd_put_lchar(planner.leveling_active || blink ? '_' : ' ');
