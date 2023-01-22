@@ -602,29 +602,31 @@ void __O2 Endstops::report_states() {
   #if HAS_Y2_MAX
     ES_REPORT(Y2_MAX);
   #endif
-  #if HAS_Z_MIN
-    ES_REPORT(Z_MIN);
-  #endif
-  #if HAS_Z2_MIN
-    ES_REPORT(Z2_MIN);
-  #endif
-  #if HAS_Z3_MIN
-    ES_REPORT(Z3_MIN);
-  #endif
-  #if HAS_Z4_MIN
-    ES_REPORT(Z4_MIN);
-  #endif
-  #if HAS_Z_MAX
-    ES_REPORT(Z_MAX);
-  #endif
-  #if HAS_Z2_MAX
-    ES_REPORT(Z2_MAX);
-  #endif
-  #if HAS_Z3_MAX
-    ES_REPORT(Z3_MAX);
-  #endif
-  #if HAS_Z4_MAX
-    ES_REPORT(Z4_MAX);
+  #if HAS_Z_AXIS // TEST
+    #if HAS_Z_MIN
+      ES_REPORT(Z_MIN);
+    #endif
+    #if HAS_Z2_MIN
+      ES_REPORT(Z2_MIN);
+    #endif
+    #if HAS_Z3_MIN
+      ES_REPORT(Z3_MIN);
+    #endif
+    #if HAS_Z4_MIN
+      ES_REPORT(Z4_MIN);
+    #endif
+    #if HAS_Z_MAX
+      ES_REPORT(Z_MAX);
+    #endif
+    #if HAS_Z2_MAX
+      ES_REPORT(Z2_MAX);
+    #endif
+    #if HAS_Z3_MAX
+      ES_REPORT(Z3_MAX);
+    #endif
+    #if HAS_Z4_MAX
+      ES_REPORT(Z4_MAX);
+    #endif
   #endif
   #if HAS_I_MIN
     ES_REPORT(I_MIN);
@@ -798,7 +800,7 @@ void Endstops::update() {
     #endif
   #endif
 
-  #if HAS_Z_MIN && NONE(Z_SPI_SENSORLESS, Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
+  #if HAS_Z_AXIS && HAS_Z_MIN && NONE(Z_SPI_SENSORLESS, Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
     UPDATE_ENDSTOP_BIT(Z, MIN);
     #if ENABLED(Z_MULTI_ENDSTOPS)
       #if HAS_Z2_MIN
