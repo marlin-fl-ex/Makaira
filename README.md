@@ -24,7 +24,7 @@ Please test this firmware and let us know if it misbehaves in any way. Volunteer
   --------|---|-------|----------
   [Recreator3D MK3](https://joshuartaylor.wixsite.com/recreator3d/mk3)||Xvico x.xx, Robin Nano V1.2|work in progress
   [Recreator3D MK5](https://joshuartaylor.wixsite.com/recreator3d/mk5kitender3)|STM32F103RE|Ender V4.2.2|alpha release
-  [polyjoiner](https://discord.com/channels/969539629176991764/999380356035788920)||BTT EBB42|planned
+  [polyjoiner](https://discord.com/channels/969539629176991764/999380356035788920)|STM32F072|BTT EBB42|in progress
 
 ## Bugfix Branch!
 
