@@ -68,8 +68,11 @@
   #define X_STOP_PIN                        PB6
   #define Y_STOP_PIN                        PB5
   #define Z_STOP_PIN                        PB7
+#else
+  #define X_MIN_PIN -1
+  #define Y_STOP_PIN -1
+  #define Z_MIN_PIN -1
 #endif
-
 //
 // Z Probe must be this pin
 //

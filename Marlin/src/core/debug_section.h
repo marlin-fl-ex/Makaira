@@ -44,6 +44,6 @@ private:
       SERIAL_ECHOF(the_msg);
     }
     SERIAL_CHAR(' ');
-    print_pos(current_position);
+    print_pos((xyz_pos_t)current_position);
   }
 };

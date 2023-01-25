@@ -417,15 +417,20 @@ void GcodeSuite::G28() {
       TERN_(BLTOUCH, bltouch.init());
     }
 
-    // Diagonal move first if both are homing
-    TERN_(QUICK_HOME, if (doX && doY) quick_home_xy());
+    #if HAS_Y_AXIS
+      // Diagonal move first if both are homing
+      TERN_(QUICK_HOME, if (doX && doY) quick_home_xy());
 
-    // Home Y (before X)
-    if (ENABLED(HOME_Y_BEFORE_X) && (doY || TERN0(CODEPENDENT_XY_HOMING, doX)))
-      homeaxis(Y_AXIS);
+      // Home Y (before X)
+      if (ENABLED(HOME_Y_BEFORE_X) && (doY || TERN0(CODEPENDENT_XY_HOMING, doX)))
+        homeaxis(Y_AXIS);
+      // Home X
+      if (doX || (doY && ENABLED(CODEPENDENT_XY_HOMING) && DISABLED(HOME_Y_BEFORE_X))) {
+    #else
+      // Home X
+      if (doX ) {
+    #endif
 
-    // Home X
-    if (doX || (doY && ENABLED(CODEPENDENT_XY_HOMING) && DISABLED(HOME_Y_BEFORE_X))) {
 
       #if ENABLED(DUAL_X_CARRIAGE)
 
@@ -455,10 +460,12 @@ void GcodeSuite::G28() {
       if (doI) homeaxis(I_AXIS);
     #endif
 
-    // Home Y (after X)
-    if (DISABLED(HOME_Y_BEFORE_X) && doY)
-      homeaxis(Y_AXIS);
-
+    #if HAS_Y_AXIS
+      // Home Y (after X)
+      if (DISABLED(HOME_Y_BEFORE_X) && doY)
+        homeaxis(Y_AXIS);
+    #endif
+    
     #if BOTH(FOAMCUTTER_XYUV, HAS_J_AXIS)
       // Home J (after Y)
       if (doJ) homeaxis(J_AXIS);

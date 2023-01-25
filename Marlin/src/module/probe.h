@@ -156,7 +156,7 @@ public:
 
     static bool set_deployed(const bool) { return false; }
 
-    static bool can_reach(const_float_t rx, const_float_t ry, const bool=true) { return position_is_reachable(rx, ry); }
+    static bool can_reach(const_float_t rx OPTARG(HAS_Y_AXIS, const_float_t ry), const bool=true) { return position_is_reachable(rx OPTARG(HAS_Y_AXIS, ry)); }
 
   #endif
 
@@ -168,7 +168,7 @@ public:
     #endif
   }
 
-  static bool can_reach(const xy_pos_t &pos, const bool probe_relative=true) { return can_reach(pos.x, pos.y, probe_relative); }
+  static bool can_reach(const xy_pos_t &pos, const bool probe_relative=true) { return can_reach(pos.x OPTARG(HAS_Y_AXIS pos.y), probe_relative); }
 
   static bool good_bounds(const xy_pos_t &lf, const xy_pos_t &rb) {
     return (

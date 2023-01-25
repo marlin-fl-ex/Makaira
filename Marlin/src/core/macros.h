@@ -30,6 +30,7 @@
 #define ABC  3
 #define XYZ  3
 #define XY   2
+//#define X    1 // this causes some problems in macro expansion
 
 #define _AXIS(A) (A##_AXIS)
 

@@ -560,9 +560,9 @@ void home_if_needed(const bool keeplev=false);
 #else
 
   // Return true if the given position is within the machine bounds.
-  bool position_is_reachable(const_float_t rx, const_float_t ry);
+  bool position_is_reachable(const_float_t rx OPTARG(HAS_Y_AXIS, const_float_t ry));
   inline bool position_is_reachable(const xy_pos_t &pos) {
-    return position_is_reachable(pos.x, pos.y);
+    return position_is_reachable(pos.x OPTARG(HAS_Y_AXIS, pos.y));
   }
 
 #endif

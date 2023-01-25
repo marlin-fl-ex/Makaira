@@ -602,6 +602,8 @@
   #error "ARC_SUPPORT no longer uses ARC_SEGMENTS_PER_R."
 #elif ENABLED(ARC_SUPPORT) && (!defined(MIN_ARC_SEGMENT_MM) || !defined(MAX_ARC_SEGMENT_MM))
   #error "ARC_SUPPORT now requires MIN_ARC_SEGMENT_MM and MAX_ARC_SEGMENT_MM."
+#elif ENABLED(ARC_SUPPORT) && !HAS_Y_AXIS
+  #error "ARC_SUPPORT requires an X and Y axis"
 #elif defined(LASER_POWER_INLINE)
   #error "LASER_POWER_INLINE is obsolete."
 #elif defined(SPINDLE_LASER_PWM)
@@ -849,8 +851,12 @@ static_assert(COUNT(arm) == LOGICAL_AXES, "AXIS_RELATIVE_MODES must contain " _L
  * Validate that the bed size fits
  */
 static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS) are too narrow to contain X_BED_SIZE.");
-static_assert(Y_MAX_LENGTH >= Y_BED_SIZE, "Movement bounds (Y_MIN_POS, Y_MAX_POS) are too narrow to contain Y_BED_SIZE.");
-
+#ifndef HAS_X_AXIS
+#error HAS_X_AXIS not defined yet
+#endif
+#if HAS_Y_AXIS
+  static_assert(Y_MAX_LENGTH >= Y_BED_SIZE, "Movement bounds (Y_MIN_POS, Y_MAX_POS) are too narrow to contain Y_BED_SIZE.");
+#endif
 /**
  * Granular software endstops (Marlin >= 1.1.7)
  */
