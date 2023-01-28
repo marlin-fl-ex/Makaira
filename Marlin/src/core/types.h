@@ -490,7 +490,7 @@ struct XYZval {
     // FIXME maybe don't need this. Having side-effects defining X. FI void set(const T (&arr)[X])                     { x = arr[0] }
   #endif
   #if HAS_Y_AXIS
-    FI void set(const T (&arr)[XY])                    { x = arr[0], y = arr[1] }
+    FI void set(const T (&arr)[XY])                    { x = arr[0], y = arr[1]; }
     FI void set(const T px, const T py)                { x = px; y = py; }
     FI void set(const XYval<T> pxy)                    { x = pxy.x; y = pxy.y; }
   #endif

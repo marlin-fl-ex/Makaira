@@ -168,7 +168,7 @@ public:
     #endif
   }
 
-  static bool can_reach(const xy_pos_t &pos, const bool probe_relative=true) { return can_reach(pos.x OPTARG(HAS_Y_AXIS pos.y), probe_relative); }
+  static bool can_reach(const xy_pos_t &pos, const bool probe_relative=true) { return can_reach(pos.x OPTARG(HAS_Y_AXIS, pos.y), probe_relative); }
 
   static bool good_bounds(const xy_pos_t &lf, const xy_pos_t &rb) {
     return (
