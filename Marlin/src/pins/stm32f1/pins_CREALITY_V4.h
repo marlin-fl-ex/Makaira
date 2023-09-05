@@ -136,8 +136,8 @@
 //
 // Temperature Sensors
 //
-#define TEMP_0_PIN                          PC5   // TH1
-#define TEMP_BED_PIN                        PC4   // TB1
+#define TEMP_0_PIN                      PC4    // normally PC5, but resistor needs re-soldered   // TH1
+#define TEMP_BED_PIN                    PC5   // normally PC4   // TB1
 
 //
 // Heaters / Fans
